@@ -29,7 +29,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   String timerText = '00:00:00';
 
   void initializer() async {
-    pathToAudio = '/sdcard/Download/temp.wav';
+    String timeStamp =
+        (DateTime.now().millisecondsSinceEpoch / 1000).toString();
+    pathToAudio = "/sdcard/Download/temp.wav";
     recordingSession = FlutterSoundRecorder();
 
     await recordingSession!.openAudioSession(
@@ -122,20 +124,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       animation:
           CurvedAnimation(parent: controller!, curve: Curves.fastOutSlowIn),
       builder: (context, child) {
-        return recording
-            ? Column(
-                children: [
-                  Stack(alignment: Alignment.center, children: <Widget>[
-                    _buildContainer(100 * controller!.value),
-                    _buildContainer(200 * controller!.value),
-                    _buildContainer(300 * controller!.value),
-                    _buildContainer(400 * controller!.value),
-                    RecordWidget(recording: recording, onTap: onTap),
-                  ]),
-                  Text(timerText)
-                ],
-              )
-            : RecordWidget(recording: recording, onTap: onTap);
+        return RecordWidget(recording: recording, onTap: onTap);
       },
     );
   }
